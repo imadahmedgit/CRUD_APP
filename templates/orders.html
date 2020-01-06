@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+{% block content %}
+
+{% if 'query_edit_orders' in request.url %}
+        
+        
+      <div style='margin-left: 100px; width: 45%;'>
+
+        {% for eresult in eresults %}
+         <br> <br> <br>
+        <form action = "edit_orders" method = "POST">
+        <input class="form-control" hidden type = "text" name = "order_id" style='width: 100%;' value='{{eresult["order_id"]}}'/>
+         <p>Order Date: <input class="form-control" type = "text" name = "order_date" style='width: 100%;' value='{{eresult["order_date"]}}'/></p>
+         <p>Status <input class="form-control" type = "text" name = "status" style='width: 100%;' value='{{eresult["status"]}}' /></p>
+         <p>User ID: <input class="form-control" type = "text" disabled name = "user_id" style='width: 100%;' value='{{eresult["user_id"]}}' /></p>
+        
+
+         {% endfor %}
+
+         <br>
+
+         <p><input class="btn-primary" type = "submit" value = "Update Data" /></p>
+        </form>
+      </div>
+      
+
+        {% else %}
+        <div style='margin-left: 100px; width: 45%;'>
+      
+        <br> <br> <br>
+        <form action = "insert_orders" method = "POST">
+         <p>Order Date: <input class="form-control" required type = "text" name = "order_date" style='width: 100%;' /></p>
+         <p>Status: <input class="form-control" required type = "text" name = "status" style='width: 100%;' /></p>
+		 <p>User ID: <select name="user_id" required>
+						<option value selected=""></option>
+						{% for exuser in exusers %}
+						<option value ="{{exuser['user_id']}}">{{exuser['user_id']}}</option>
+					    {% endfor %}
+					</select>
+          
+         <br>
+
+         <p><input class="btn-primary" type = "submit" value = "Insert Data" /></p>
+        </form>
+        </div>
+
+
+        {% endif %}
+
+
+
+ <div class="alert alert-success" role="alert" style='width: 90%; margin-left: 100px;'>
+       <strong>Data Table:</strong>
+  </div>
+
+  <table class = 'table table-hover' style = 'margin-left: 100px; margin-right: 100px; width: 90%;'>
+         <thead>
+            <tr>
+            <th>Order ID</th>
+            <th>Order Date</th>
+            <th>Status</th>
+            <th>User ID</th>
+            <th>EDIT</th>
+            <th>DELETE</th>
+            </tr>
+         </thead>
+
+         {% for order in Orders %}
+            <tr>
+               <td>{{order["order_id"]}}</td>
+               <td>{{order["order_date"]}}</td>
+               <td>{{order["status"]}}</td>
+               <td>{{order['user_id']}}</td>
+               <td align="center"><a href = "{{ url_for('sql_editlink_orders', eorder_id=order['order_id']) }}"><i class="fas fa-edit"></a></td>
+               <td align="center"><a href = "{{ url_for('sql_datadelete_orders', order_id=order['order_id']) }}"><i class="fas fa-trash-alt"></a></td>
+               
+            </tr>
+         {% endfor %}
+      </table>
+{% endblock content %}

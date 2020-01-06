@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+ 
+ <div class="col-sm-4">
+                      
+     <ul class="nav .justify-content-center">
+  <li class="nav-item">
+    <a class="nav-link" href="{{ url_for('users')}}">Users</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ url_for('orders')}}">Orders</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ url_for('scenes')}}">Scenes</a>
+  </li>
+</ul>                 
+                      
+  </div>
+
+
+{% endblock content %}

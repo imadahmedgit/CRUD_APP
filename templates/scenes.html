@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+{% block content %}
+
+{% if 'query_edit_scenes' in request.url %}
+        
+        
+        <div style='margin-left: 100px; width: 45%;'>
+
+        {% for eresult in eresults %}
+         <br> <br> <br>
+        <form action = "edit_scenes" method = "POST">
+         <input class="form-control" hidden type = "text" name = "scene_id" style='width: 100%;' value='{{eresult["scene_id"]}}'/>
+         <p>Name: <input class="form-control" type = "text"  required name = "name" style='width: 100%;' value='{{eresult["name"]}}'/></p>
+         <p>Status: <input class="form-control" type = "text" required name = "s_status" style='width: 100%;' value='{{eresult["s_status"]}}' /></p>
+         <p>Sensor: <input class="form-control" type = "text" required name = "sensor" style='width: 100%;' value='{{eresult["sensor"]}}' /></p>
+         <p>Order ID: <input class="form-control" type = "text" disabled name = "order_id" style='width: 100%;' value='{{eresult["order_id"]}}' /></p>
+         
+         
+         {% endfor %}
+
+         <br>
+
+         <p><input class="btn-primary" type = "submit" value = "Update Data" /></p>
+        </form>
+        </div>
+      
+
+        {% else %}
+        <div style='margin-left: 100px; width: 45%;'>
+      
+        <br> <br> <br>
+        <form action = "insert_scenes" method = "POST">
+        <p>Scene Name: <input class="form-control" required type = "text" name = "name" style='width: 100%;' /></p>
+         <p>Status: <input class="form-control" required type = "text" name = "s_status" style='width: 100%;' /></p>
+         <p>Sensor: <input class="form-control" required type = "text" name = "sensor" style='width: 100%;' /></p>
+         <p>Order ID: <select name="order_id" required>
+                        <option value selected=""></option>
+                        {% for exorder in exorders %}
+                        <option value ="{{exorder['order_id']}}">{{exorder['order_id']}}</option>
+                        {% endfor %}
+                    </select>
+         
+         
+         <br>
+
+         <p><input class="btn-primary" type = "submit" value = "Insert Data" /></p>
+        </form>
+        </div>
+
+
+        {% endif %}
+
+
+
+ <div class="alert alert-success" role="alert" style='width: 90%; margin-left: 100px;'>
+       <strong>Data Table:</strong>
+  </div>
+
+  <table class = 'table table-hover' style = 'margin-left: 100px; margin-right: 100px; width: 90%;'>
+         <thead>
+            <tr>
+            <th>Scene Name</th>
+            <th>Status</th>
+            <th>Sensor</th>
+            <th>Order ID</th>
+            <th>EDIT</th>
+            <th>DELETE</th>
+            </tr>
+         </thead>
+
+         {% for scene in Scenes %}
+            <tr>
+               <td>{{scene["name"]}}</td>
+               <td>{{scene["s_status"]}}</td>
+               <td>{{scene["sensor"]}}</td>
+               <td>{{scene["order_id"]}}</td>
+               <td align="center"><a href = "{{ url_for('sql_editlink_scenes', scene_id=scene['scene_id']) }}"><i class="fas fa-edit"></a></td>
+               <td align="center"><a href = "{{ url_for('sql_datadelete_scenes', scene_id=scene['scene_id']) }}"><i class="fas fa-trash-alt"></a></td>
+               
+            </tr>
+         {% endfor %}
+      </table>
+{% endblock content %}
